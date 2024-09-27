@@ -15,8 +15,8 @@ load_dotenv()
 # load GROQ API-
 groq_api_Key = os.getenv("ENTER YOUR GROQ API KEY")
 # define your llm
-llm = ChatGroq(model="gemma2-9b-it", api_key = groq_api_Key)
-#define your prompt
+llm = ChatGroq(model="gemma2-9b-it", api_key = groq_api_Key) # You can use model of your choice
+# define your prompt
 prompt = ChatPromptTemplate.from_template(
     """
     Answer the quesion based on provided context only.
