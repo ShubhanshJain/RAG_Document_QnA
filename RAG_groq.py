@@ -13,10 +13,10 @@ from langchain_community.document_loaders import PyPDFDirectoryLoader, PyPDFLoad
 from dotenv import load_dotenv
 load_dotenv()
 # load GROQ API-
-groq_api_Key = os.getenv("GROQ_API_KEY")
-
+groq_api_Key = os.getenv("ENTER YOUR GROQ API KEY")
+# define your llm
 llm = ChatGroq(model="gemma2-9b-it", api_key = groq_api_Key)
-
+#define your prompt
 prompt = ChatPromptTemplate.from_template(
     """
     Answer the quesion based on provided context only.
@@ -29,7 +29,7 @@ prompt = ChatPromptTemplate.from_template(
     Question:{input}
     """
 )
-
+# create embeddings
 def create_vector_embeddings():
     if "vectors" not in st.session_state:
         st.session_state.embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
@@ -48,16 +48,11 @@ if st.button("Doc Embedding"):
 
 user_prompt = st.text_input("Enter your query from pdf")
 
-import time
-
 if user_prompt:
     doc_chain = create_stuff_documents_chain(llm, prompt)
     retriever = st.session_state.vectors.as_retriever()
     retriever_chain = create_retrieval_chain(retriever, doc_chain)
-
-    start = time.process_time()
     response = retriever_chain.invoke({'input' : user_prompt})
-    print(f"Retrieval time: {time.process_time() - start}")
     st.write(response['answer'])
 
 
