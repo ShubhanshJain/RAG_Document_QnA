@@ -13,7 +13,7 @@ from langchain_community.document_loaders import PyPDFDirectoryLoader, PyPDFLoad
 from dotenv import load_dotenv
 load_dotenv()
 # load GROQ API-
-groq_api_Key = os.getenv("ENTER YOUR GROQ API KEY")
+groq_api_Key = st.secrets["GROQ_API_KEY"]
 # define your llm
 llm = ChatGroq(model="gemma2-9b-it", api_key = groq_api_Key) # You can use model of your choice
 # define your prompt
@@ -40,6 +40,7 @@ def create_vector_embeddings():
         st.session_state.final_documents = st.session_state.text_splitter.split_documents(st.session_state.docs[:50])
         st.session_state.vectors = FAISS.from_documents(st.session_state.final_documents, st.session_state.embeddings)
 st.title("RAG Document Q&A with Groq")
+
 
 
 if st.button("Doc Embedding"):
